@@ -8,22 +8,35 @@ public class DayTwo {
      * 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
      * NOTE：给出的所有元素都大于0，若数组大小为0，请返回0
      *
+     * 二分查找时间复杂度为(O)log2N  顺序查找为(O)N
+     *
      * @param args
      */
     public static void main(String[] args) {
         //解题思路:头尾两个节点依次找中间值，如果中间值大于左值，则头值变为该中间值
         //如果中间值小于左值，则尾值为中间值
         //如果中间值小于左值，并且小于右值，则该值为最小值
-        int[] arr = {4, 5, 7, 8, 10, 100, 500, 2, 3};
+        int[] arr = {3, 4, 5, 1, 2};
         int first = 0, last = arr.length - 1, mid = 0; //头索引，尾索引,中间索引
-        int len = arr.length;
-        mid = len / 2;
-        while (true) {
+        while (first < last) {
+            mid = (first + last) / 2;
+            if (arr[mid] == arr[first] || arr[mid] == arr[last]) {
+                int min = 0;
+                for (int i = 0; i < arr.length; i++) {
+                    if (i < arr.length - 1 && arr[i] > arr[i + 1]) {
+                        min = arr[i + 1];
+                    }
+                }
+                System.out.println("最小值" + min);
+                break;
+            }
             if (arr[mid] > arr[first]) {
                 first = mid;
-                mid = (first + last) / 2;
-            } else if (arr[mid] < arr[first] && arr[mid] < arr[last]) {
-                System.out.println("最小值为" + arr[mid]);
+            } else if (arr[mid] < arr[last]) {
+                last = mid;
+            }
+            if (last - first == 1) {
+                System.out.println("最小值" + arr[last]);
                 break;
             }
         }
